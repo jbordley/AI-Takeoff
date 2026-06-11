@@ -1,0 +1,467 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-02-10",
+  "description": "Design rules that auto-suggest equipment based on room type and area. Each rule maps a zone type to a set of equipment formulas.",
+  "globalDefaults": {
+    "laborRate_standard": 85.00,
+    "laborRate_programming": 95.00,
+    "laborRate_network": 110.00,
+    "markupPercent": 30,
+    "taxRate": 0,
+    "ceilingHeight_default_ft": 9
+  },
+  "roomTypes": {
+    "fitness": {
+      "label": "Fitness Center / Gym",
+      "description": "High-energy space requiring full AV coverage with bass reinforcement",
+      "equipment": [
+        {
+          "symbolId": "AV-SPK-CLG-02",
+          "formula": "ceil(sqft / 250)",
+          "description": "1 high-output ceiling speaker per 250 sq ft",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-SUB-CLG-01",
+          "formula": "ceil(ceil(sqft / 250) / 4)",
+          "description": "1 subwoofer per 4 speakers",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TV-65",
+          "formula": "max(1, ceil(sqft / 600))",
+          "description": "1 display per 600 sq ft, minimum 1",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-MEDIA-01",
+          "formula": "max(1, ceil(sqft / 600))",
+          "description": "1 per display",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TP-07",
+          "formula": "1",
+          "description": "1 touch panel at entry",
+          "priority": "required"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(1, ceil(sqft / 2000))",
+          "description": "1 AP per 2,000 sq ft",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-CAM-DOME-01",
+          "formula": "max(1, ceil(sqft / 800))",
+          "description": "Coverage of equipment area and entry",
+          "priority": "recommended"
+        },
+        {
+          "symbolId": "AC-READER-01",
+          "formula": "1",
+          "description": "Card reader at entry for guest access",
+          "priority": "recommended"
+        }
+      ]
+    },
+    "lobby": {
+      "label": "Lobby / Reception",
+      "description": "First impression area with background music and digital signage",
+      "equipment": [
+        {
+          "symbolId": "AV-SPK-CLG-01",
+          "formula": "ceil(sqft / 300)",
+          "description": "1 standard speaker per 300 sq ft",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TV-55",
+          "formula": "max(1, ceil(sqft / 1000))",
+          "description": "Digital signage displays",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-MEDIA-01",
+          "formula": "max(1, ceil(sqft / 1000))",
+          "description": "1 per display",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TP-07",
+          "formula": "1",
+          "description": "1 touch panel at front desk",
+          "priority": "recommended"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(1, ceil(sqft / 1500))",
+          "description": "High-density WiFi for lobby",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-CAM-DOME-01",
+          "formula": "max(2, ceil(sqft / 500))",
+          "description": "Full coverage — entrance, desk, elevator bank",
+          "priority": "required"
+        }
+      ]
+    },
+    "meeting": {
+      "label": "Meeting Room / Conference",
+      "description": "Collaboration space with video conferencing capability",
+      "equipment": [
+        {
+          "symbolId": "AV-SPK-CLG-01",
+          "formula": "max(2, ceil(sqft / 200))",
+          "description": "Speakers for audio playback and conferencing",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TV-65",
+          "formula": "1",
+          "description": "Primary display for presentations",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-SWITCH-HDMI",
+          "formula": "1",
+          "description": "Multi-source switcher (laptop, camera, media)",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TP-07",
+          "formula": "1",
+          "description": "Room control at entry",
+          "priority": "required"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "1",
+          "description": "Dedicated AP for meeting room",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-READER-01",
+          "formula": "1",
+          "description": "Access control for secure bookings",
+          "priority": "optional"
+        }
+      ]
+    },
+    "ballroom": {
+      "label": "Ballroom / Event Space",
+      "description": "Large flexible space, often with partitions. Full AV + zoned control.",
+      "equipment": [
+        {
+          "symbolId": "AV-SPK-CLG-02",
+          "formula": "ceil(sqft / 200)",
+          "description": "High-output speakers, dense coverage for events",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-SUB-CLG-01",
+          "formula": "ceil(ceil(sqft / 200) / 4)",
+          "description": "1 sub per 4 speakers",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TV-75",
+          "formula": "max(2, ceil(sqft / 1500))",
+          "description": "Large displays for stage/signage",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-MEDIA-01",
+          "formula": "max(2, ceil(sqft / 1500))",
+          "description": "1 per display",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TP-10",
+          "formula": "1",
+          "description": "Premium touch panel at main entry",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TP-07",
+          "formula": "max(0, ceil(sqft / 3000) - 1)",
+          "description": "Additional panels at partition entries",
+          "priority": "recommended"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(2, ceil(sqft / 1500))",
+          "description": "High-density WiFi for events",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-CAM-DOME-01",
+          "formula": "max(2, ceil(sqft / 1000))",
+          "description": "Security coverage of event space",
+          "priority": "recommended"
+        }
+      ]
+    },
+    "restaurant": {
+      "label": "Restaurant / Dining",
+      "description": "Background music with zoned control, digital menu boards optional",
+      "equipment": [
+        {
+          "symbolId": "AV-SPK-CLG-01",
+          "formula": "ceil(sqft / 250)",
+          "description": "Standard speakers for background music",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TV-55",
+          "formula": "max(0, ceil(sqft / 1500))",
+          "description": "Optional menu/ambiance displays",
+          "priority": "optional"
+        },
+        {
+          "symbolId": "AV-TP-07",
+          "formula": "1",
+          "description": "Volume/source control at host stand",
+          "priority": "recommended"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(1, ceil(sqft / 2000))",
+          "description": "Guest WiFi + POS connectivity",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-CAM-DOME-01",
+          "formula": "max(1, ceil(sqft / 800))",
+          "description": "Cash handling and dining area coverage",
+          "priority": "required"
+        }
+      ]
+    },
+    "bar": {
+      "label": "Bar / Lounge",
+      "description": "Higher energy than restaurant, multiple displays for sports/entertainment",
+      "equipment": [
+        {
+          "symbolId": "AV-SPK-CLG-01",
+          "formula": "ceil(sqft / 200)",
+          "description": "Denser speaker coverage for bar atmosphere",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-SUB-CLG-01",
+          "formula": "max(1, ceil(ceil(sqft / 200) / 6))",
+          "description": "Bass reinforcement",
+          "priority": "recommended"
+        },
+        {
+          "symbolId": "AV-TV-55",
+          "formula": "max(2, ceil(sqft / 400))",
+          "description": "Multiple displays for sports/entertainment",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-MEDIA-01",
+          "formula": "max(2, ceil(sqft / 400))",
+          "description": "1 per display",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TP-07",
+          "formula": "1",
+          "description": "Bar control panel",
+          "priority": "required"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(1, ceil(sqft / 1500))",
+          "description": "Guest WiFi + entertainment streaming",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-CAM-DOME-01",
+          "formula": "max(2, ceil(sqft / 600))",
+          "description": "Bar area, entry, cash handling",
+          "priority": "required"
+        }
+      ]
+    },
+    "pool": {
+      "label": "Pool / Pool Deck",
+      "description": "Outdoor or wet area requiring weather-rated equipment",
+      "equipment": [
+        {
+          "symbolId": "AV-SPK-WALL-01",
+          "formula": "ceil(sqft / 400)",
+          "description": "Wall-mount outdoor-rated speakers",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TP-07",
+          "formula": "1",
+          "description": "Weatherproof control panel at pool entry",
+          "priority": "recommended"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(1, ceil(sqft / 2500))",
+          "description": "Outdoor WiFi coverage",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-CAM-BULLET-01",
+          "formula": "max(2, ceil(sqft / 1000))",
+          "description": "Outdoor cameras for safety/liability",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-READER-01",
+          "formula": "1",
+          "description": "Guest access control at pool gate",
+          "priority": "required"
+        }
+      ]
+    },
+    "corridor": {
+      "label": "Corridor / Hallway",
+      "description": "Background music and security coverage for circulation spaces",
+      "equipment": [
+        {
+          "symbolId": "AV-SPK-CLG-01",
+          "formula": "ceil(sqft / 400)",
+          "description": "Light background music coverage",
+          "priority": "optional"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(1, ceil(sqft / 3000))",
+          "description": "WiFi coverage for roaming",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-CAM-DOME-01",
+          "formula": "max(1, ceil(sqft / 600))",
+          "description": "Corridor surveillance",
+          "priority": "required"
+        }
+      ]
+    },
+    "spa": {
+      "label": "Spa / Wellness",
+      "description": "Quiet background music, minimal tech footprint",
+      "equipment": [
+        {
+          "symbolId": "AV-SPK-CLG-01",
+          "formula": "ceil(sqft / 350)",
+          "description": "Low-volume ambient speakers",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AV-TP-07",
+          "formula": "1",
+          "description": "Discreet volume control at reception",
+          "priority": "recommended"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(1, ceil(sqft / 2500))",
+          "description": "Staff tablets and booking system",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-READER-01",
+          "formula": "1",
+          "description": "Guest access at spa entry",
+          "priority": "recommended"
+        }
+      ]
+    },
+    "back-of-house": {
+      "label": "Back of House / BOH",
+      "description": "Staff areas — security focused, minimal AV",
+      "equipment": [
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(1, ceil(sqft / 3000))",
+          "description": "Staff device connectivity",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-CAM-DOME-01",
+          "formula": "max(1, ceil(sqft / 800))",
+          "description": "Shipping, receiving, storage surveillance",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-READER-01",
+          "formula": "max(1, ceil(sqft / 2000))",
+          "description": "Restricted area access",
+          "priority": "required"
+        }
+      ]
+    },
+    "parking": {
+      "label": "Parking / Garage",
+      "description": "Perimeter security and access control",
+      "equipment": [
+        {
+          "symbolId": "AC-CAM-BULLET-01",
+          "formula": "max(2, ceil(sqft / 3000))",
+          "description": "Outdoor cameras for parking coverage",
+          "priority": "required"
+        },
+        {
+          "symbolId": "AC-READER-01",
+          "formula": "2",
+          "description": "Entry + exit gates",
+          "priority": "required"
+        },
+        {
+          "symbolId": "NET-AP-01",
+          "formula": "max(1, ceil(sqft / 5000))",
+          "description": "Camera backhaul and minimal guest WiFi",
+          "priority": "recommended"
+        }
+      ]
+    }
+  },
+  "infrastructureRules": {
+    "description": "Auto-calculated backbone equipment based on total device counts",
+    "amplifiers": {
+      "symbolId": "AV-AMP-01",
+      "formula": "ceil(totalSpeakers / 16)",
+      "description": "1 amp per 16 speakers (4 channels × 4 speakers)"
+    },
+    "dsp": {
+      "symbolId": "AV-DSP-01",
+      "formula": "ceil(totalZones / 12)",
+      "description": "1 DSP per 12 audio zones"
+    },
+    "switches": {
+      "symbolId": "NET-SW-48",
+      "formula": "ceil(totalPoeDevices / 40)",
+      "description": "1 switch per 40 PoE devices (reserve 8 ports)",
+      "fallback": {
+        "symbolId": "NET-SW-24",
+        "condition": "totalPoeDevices <= 20",
+        "description": "Use 24-port if under 20 devices"
+      }
+    },
+    "firewall": {
+      "symbolId": "NET-FW-01",
+      "formula": "1",
+      "description": "1 per property"
+    },
+    "nvr": {
+      "symbolId": "AC-NVR-01",
+      "formula": "ceil(totalCameras / 16)",
+      "description": "1 NVR per 16 cameras"
+    },
+    "accessPanels": {
+      "symbolId": "AC-PANEL-01",
+      "formula": "ceil(totalReaders / 8)",
+      "description": "1 panel per 8 card readers"
+    }
+  }
+}

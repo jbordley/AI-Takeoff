@@ -1,0 +1,565 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-02-10",
+  "categories": {
+    "AV": { "label": "Audio/Visual", "color": "#3B82F6" },
+    "NET": { "label": "Networking", "color": "#10B981" },
+    "AC": { "label": "Access Control / Security", "color": "#EF4444" }
+  },
+  "symbols": [
+    {
+      "id": "AV-SPK-CLG-01",
+      "name": "Ceiling Speaker (Standard)",
+      "category": "AV",
+      "subcategory": "Audio",
+      "partNumber": "JBL-CONTROL-26CT",
+      "manufacturer": "JBL",
+      "model": "Control 26CT",
+      "unitCost": 185.00,
+      "laborHours": 0.75,
+      "laborRate": 85.00,
+      "svgIcon": "ceiling-speaker.svg",
+      "mounting": "ceiling",
+      "placementRules": {
+        "minSpacing_ft": 8,
+        "maxSpacing_ft": 14,
+        "minCeilingHeight_ft": 8,
+        "zoneTypes": ["fitness", "lobby", "corridor", "restaurant", "pool", "spa", "meeting", "ballroom", "retail"],
+        "coverageRadius_ft": 10,
+        "notes": "Coverage based on 8-10ft ceiling. Increase density for higher ceilings."
+      },
+      "specs": {
+        "power_watts": 60,
+        "impedance_ohms": 8,
+        "frequency_range": "65Hz-18kHz",
+        "diameter_in": 6.5
+      }
+    },
+    {
+      "id": "AV-SPK-CLG-02",
+      "name": "Ceiling Speaker (High Output)",
+      "category": "AV",
+      "subcategory": "Audio",
+      "partNumber": "JBL-CONTROL-328CT",
+      "manufacturer": "JBL",
+      "model": "Control 328CT",
+      "unitCost": 425.00,
+      "laborHours": 1.0,
+      "laborRate": 85.00,
+      "svgIcon": "ceiling-speaker-ho.svg",
+      "mounting": "ceiling",
+      "placementRules": {
+        "minSpacing_ft": 12,
+        "maxSpacing_ft": 20,
+        "minCeilingHeight_ft": 10,
+        "zoneTypes": ["fitness", "ballroom", "pool", "restaurant", "nightclub"],
+        "coverageRadius_ft": 15,
+        "notes": "High-output for large/noisy spaces. Preferred for fitness and ballrooms."
+      },
+      "specs": {
+        "power_watts": 120,
+        "impedance_ohms": 8,
+        "frequency_range": "55Hz-18kHz",
+        "diameter_in": 8
+      }
+    },
+    {
+      "id": "AV-SPK-WALL-01",
+      "name": "Wall Mount Speaker",
+      "category": "AV",
+      "subcategory": "Audio",
+      "partNumber": "JBL-CONTROL-28-1",
+      "manufacturer": "JBL",
+      "model": "Control 28-1",
+      "unitCost": 310.00,
+      "laborHours": 1.0,
+      "laborRate": 85.00,
+      "svgIcon": "wall-speaker.svg",
+      "mounting": "wall",
+      "placementRules": {
+        "minSpacing_ft": 10,
+        "maxSpacing_ft": 18,
+        "mountHeight_ft": 8,
+        "zoneTypes": ["pool", "outdoor", "restaurant", "bar", "patio"],
+        "coverageRadius_ft": 12,
+        "notes": "Outdoor-rated. Use for areas where ceiling mount isn't possible."
+      },
+      "specs": {
+        "power_watts": 65,
+        "impedance_ohms": 8,
+        "frequency_range": "60Hz-18kHz"
+      }
+    },
+    {
+      "id": "AV-SUB-CLG-01",
+      "name": "Ceiling Subwoofer",
+      "category": "AV",
+      "subcategory": "Audio",
+      "partNumber": "JBL-CONTROL-47C-LP",
+      "manufacturer": "JBL",
+      "model": "Control 47C/LP",
+      "unitCost": 550.00,
+      "laborHours": 1.5,
+      "laborRate": 85.00,
+      "svgIcon": "ceiling-subwoofer.svg",
+      "mounting": "ceiling",
+      "placementRules": {
+        "minPerZone": 1,
+        "ratioToSpeakers": "1:4",
+        "zoneTypes": ["fitness", "nightclub", "ballroom", "bar"],
+        "notes": "1 sub per 4 ceiling speakers. Required for fitness and nightclub zones."
+      },
+      "specs": {
+        "power_watts": 200,
+        "frequency_range": "35Hz-150Hz",
+        "diameter_in": 12
+      }
+    },
+    {
+      "id": "AV-AMP-01",
+      "name": "Amplifier (4-Channel)",
+      "category": "AV",
+      "subcategory": "Audio",
+      "partNumber": "CROWN-CDI4-300",
+      "manufacturer": "Crown",
+      "model": "CDi 4|300",
+      "unitCost": 1250.00,
+      "laborHours": 2.0,
+      "laborRate": 85.00,
+      "svgIcon": "amplifier.svg",
+      "mounting": "rack",
+      "placementRules": {
+        "locationTypes": ["mdf", "idf", "av-closet", "rack-room"],
+        "channelsPerUnit": 4,
+        "speakersPerChannel": 4,
+        "notes": "1 amp drives up to 16 speakers (4 per channel at 70V). Place in nearest rack location."
+      },
+      "specs": {
+        "power_watts_per_ch": 300,
+        "channels": 4,
+        "rack_units": 2
+      }
+    },
+    {
+      "id": "AV-DSP-01",
+      "name": "DSP Processor",
+      "category": "AV",
+      "subcategory": "Audio",
+      "partNumber": "BSS-BLU-100",
+      "manufacturer": "BSS",
+      "model": "BLU-100",
+      "unitCost": 2800.00,
+      "laborHours": 4.0,
+      "laborRate": 95.00,
+      "svgIcon": "dsp.svg",
+      "mounting": "rack",
+      "placementRules": {
+        "locationTypes": ["mdf", "av-closet", "rack-room"],
+        "maxZonesPerUnit": 12,
+        "notes": "1 DSP per property or per 12 zones. Central brain for audio routing."
+      },
+      "specs": {
+        "inputs": 12,
+        "outputs": 8,
+        "rack_units": 1
+      }
+    },
+    {
+      "id": "AV-TV-55",
+      "name": "55\" Commercial Display",
+      "category": "AV",
+      "subcategory": "Video",
+      "partNumber": "LG-55UH5J-H",
+      "manufacturer": "LG",
+      "model": "55UH5J-H",
+      "unitCost": 850.00,
+      "laborHours": 1.5,
+      "laborRate": 85.00,
+      "svgIcon": "display-55.svg",
+      "mounting": "wall",
+      "placementRules": {
+        "mountHeight_ft": 5,
+        "viewingDistance_ft": { "min": 6, "max": 18 },
+        "zoneTypes": ["lobby", "restaurant", "bar", "fitness", "meeting", "corridor"],
+        "notes": "Standard lobby/restaurant display. Include mount in labor."
+      },
+      "specs": {
+        "resolution": "4K UHD",
+        "brightness_nits": 500,
+        "size_in": 55
+      }
+    },
+    {
+      "id": "AV-TV-65",
+      "name": "65\" Commercial Display",
+      "category": "AV",
+      "subcategory": "Video",
+      "partNumber": "LG-65UH5J-H",
+      "manufacturer": "LG",
+      "model": "65UH5J-H",
+      "unitCost": 1150.00,
+      "laborHours": 1.5,
+      "laborRate": 85.00,
+      "svgIcon": "display-65.svg",
+      "mounting": "wall",
+      "placementRules": {
+        "mountHeight_ft": 5,
+        "viewingDistance_ft": { "min": 8, "max": 22 },
+        "zoneTypes": ["lobby", "restaurant", "bar", "fitness", "meeting", "ballroom", "corridor"],
+        "notes": "Larger areas. Preferred for fitness and bars."
+      },
+      "specs": {
+        "resolution": "4K UHD",
+        "brightness_nits": 500,
+        "size_in": 65
+      }
+    },
+    {
+      "id": "AV-TV-75",
+      "name": "75\" Commercial Display",
+      "category": "AV",
+      "subcategory": "Video",
+      "partNumber": "LG-75UH5J-H",
+      "manufacturer": "LG",
+      "model": "75UH5J-H",
+      "unitCost": 1950.00,
+      "laborHours": 2.0,
+      "laborRate": 85.00,
+      "svgIcon": "display-75.svg",
+      "mounting": "wall",
+      "placementRules": {
+        "mountHeight_ft": 4.5,
+        "viewingDistance_ft": { "min": 10, "max": 28 },
+        "zoneTypes": ["ballroom", "fitness", "meeting", "lobby"],
+        "notes": "Large format for high-visibility areas. Requires structural backing."
+      },
+      "specs": {
+        "resolution": "4K UHD",
+        "brightness_nits": 500,
+        "size_in": 75
+      }
+    },
+    {
+      "id": "AV-TP-07",
+      "name": "7\" Touch Panel",
+      "category": "AV",
+      "subcategory": "Control",
+      "partNumber": "CRESTRON-TSW-770",
+      "manufacturer": "Crestron",
+      "model": "TSW-770",
+      "unitCost": 1800.00,
+      "laborHours": 2.0,
+      "laborRate": 95.00,
+      "svgIcon": "touchpanel-7.svg",
+      "mounting": "wall",
+      "placementRules": {
+        "mountHeight_ft": 4,
+        "locationTypes": ["entry", "near-door"],
+        "zoneTypes": ["meeting", "ballroom", "fitness", "lobby", "restaurant", "spa"],
+        "maxPerZone": 2,
+        "notes": "Mount at entry point of zone. 1 per zone standard, 2 for ballrooms with partition."
+      },
+      "specs": {
+        "screen_size_in": 7,
+        "poe": true,
+        "resolution": "1280x800"
+      }
+    },
+    {
+      "id": "AV-TP-10",
+      "name": "10\" Touch Panel",
+      "category": "AV",
+      "subcategory": "Control",
+      "partNumber": "CRESTRON-TSW-1070",
+      "manufacturer": "Crestron",
+      "model": "TSW-1070",
+      "unitCost": 2600.00,
+      "laborHours": 2.0,
+      "laborRate": 95.00,
+      "svgIcon": "touchpanel-10.svg",
+      "mounting": "wall",
+      "placementRules": {
+        "mountHeight_ft": 4,
+        "locationTypes": ["entry", "near-door", "reception"],
+        "zoneTypes": ["ballroom", "lobby", "meeting"],
+        "maxPerZone": 1,
+        "notes": "Premium zones only. Use 7\" for standard areas."
+      },
+      "specs": {
+        "screen_size_in": 10,
+        "poe": true,
+        "resolution": "1920x1200"
+      }
+    },
+    {
+      "id": "AV-MEDIA-01",
+      "name": "Media Player",
+      "category": "AV",
+      "subcategory": "Video",
+      "partNumber": "BRIGHTSIGN-XD1035",
+      "manufacturer": "BrightSign",
+      "model": "XD1035",
+      "unitCost": 450.00,
+      "laborHours": 0.5,
+      "laborRate": 85.00,
+      "svgIcon": "media-player.svg",
+      "mounting": "behind-display",
+      "placementRules": {
+        "ratioToDisplays": "1:1",
+        "notes": "1 per display. Mounts behind TV on VESA. Include HDMI cable."
+      },
+      "specs": {
+        "output": "4K HDMI",
+        "poe": true
+      }
+    },
+    {
+      "id": "AV-SWITCH-HDMI",
+      "name": "HDMI Switcher (4x1)",
+      "category": "AV",
+      "subcategory": "Video",
+      "partNumber": "CRESTRON-HD-MD4X1",
+      "manufacturer": "Crestron",
+      "model": "HD-MD-4x1-4K",
+      "unitCost": 850.00,
+      "laborHours": 1.0,
+      "laborRate": 85.00,
+      "svgIcon": "hdmi-switcher.svg",
+      "mounting": "rack",
+      "placementRules": {
+        "zoneTypes": ["meeting", "ballroom"],
+        "notes": "Use when multiple sources feed one display (laptop + media player + cable box)."
+      }
+    },
+    {
+      "id": "NET-AP-01",
+      "name": "Wireless Access Point",
+      "category": "NET",
+      "subcategory": "WiFi",
+      "partNumber": "RUCKUS-R770",
+      "manufacturer": "Ruckus",
+      "model": "R770",
+      "unitCost": 1100.00,
+      "laborHours": 1.0,
+      "laborRate": 85.00,
+      "svgIcon": "access-point.svg",
+      "mounting": "ceiling",
+      "placementRules": {
+        "minSpacing_ft": 30,
+        "maxSpacing_ft": 50,
+        "coverageRadius_ft": 35,
+        "zoneTypes": ["lobby", "corridor", "meeting", "restaurant", "bar", "fitness", "pool", "ballroom", "guestroom", "spa", "retail", "back-of-house"],
+        "densityRule": "1 per 2,500 sq ft standard, 1 per 1,500 sq ft high-density",
+        "notes": "WiFi 7. High-density for ballrooms, lobbies, and meeting spaces."
+      },
+      "specs": {
+        "standard": "WiFi 7 (802.11be)",
+        "poe": "802.3at",
+        "max_clients": 512
+      }
+    },
+    {
+      "id": "NET-SW-24",
+      "name": "24-Port PoE+ Switch",
+      "category": "NET",
+      "subcategory": "Switching",
+      "partNumber": "RUCKUS-ICX7150-24P",
+      "manufacturer": "Ruckus",
+      "model": "ICX 7150-24P",
+      "unitCost": 2400.00,
+      "laborHours": 2.0,
+      "laborRate": 95.00,
+      "svgIcon": "switch-24.svg",
+      "mounting": "rack",
+      "placementRules": {
+        "locationTypes": ["mdf", "idf"],
+        "portsPerDevice": 24,
+        "poeWattsPerPort": 30,
+        "notes": "1 per 20 PoE devices (reserve 4 ports). Place in nearest IDF."
+      },
+      "specs": {
+        "ports": 24,
+        "poe_budget_watts": 370,
+        "uplink": "4x 10GbE SFP+",
+        "rack_units": 1
+      }
+    },
+    {
+      "id": "NET-SW-48",
+      "name": "48-Port PoE+ Switch",
+      "category": "NET",
+      "subcategory": "Switching",
+      "partNumber": "RUCKUS-ICX7150-48PF",
+      "manufacturer": "Ruckus",
+      "model": "ICX 7150-48PF",
+      "unitCost": 4200.00,
+      "laborHours": 2.5,
+      "laborRate": 95.00,
+      "svgIcon": "switch-48.svg",
+      "mounting": "rack",
+      "placementRules": {
+        "locationTypes": ["mdf", "idf"],
+        "portsPerDevice": 48,
+        "poeWattsPerPort": 30,
+        "notes": "Use when 24-port isn't enough. Full PoE on all ports."
+      },
+      "specs": {
+        "ports": 48,
+        "poe_budget_watts": 740,
+        "uplink": "4x 10GbE SFP+",
+        "rack_units": 1
+      }
+    },
+    {
+      "id": "NET-FW-01",
+      "name": "Firewall / Router",
+      "category": "NET",
+      "subcategory": "Security",
+      "partNumber": "FORTINET-FG-60F",
+      "manufacturer": "Fortinet",
+      "model": "FortiGate 60F",
+      "unitCost": 1800.00,
+      "laborHours": 4.0,
+      "laborRate": 110.00,
+      "svgIcon": "firewall.svg",
+      "mounting": "rack",
+      "placementRules": {
+        "locationTypes": ["mdf"],
+        "maxPerProperty": 2,
+        "notes": "1 per property. HA pair for mission-critical. MDF only."
+      },
+      "specs": {
+        "throughput_gbps": 10,
+        "vpn_tunnels": 200,
+        "rack_units": 1
+      }
+    },
+    {
+      "id": "AC-CAM-DOME-01",
+      "name": "Dome Camera (Indoor)",
+      "category": "AC",
+      "subcategory": "Surveillance",
+      "partNumber": "AXIS-M3075-V",
+      "manufacturer": "Axis",
+      "model": "M3075-V",
+      "unitCost": 380.00,
+      "laborHours": 1.0,
+      "laborRate": 85.00,
+      "svgIcon": "dome-camera.svg",
+      "mounting": "ceiling",
+      "placementRules": {
+        "minSpacing_ft": 20,
+        "maxSpacing_ft": 40,
+        "coverageAngle_deg": 105,
+        "zoneTypes": ["lobby", "corridor", "elevator", "stairwell", "back-of-house", "retail", "restaurant"],
+        "notes": "Indoor vandal-resistant. Cover entries, exits, cash handling, and corridors."
+      },
+      "specs": {
+        "resolution": "1080p",
+        "poe": true,
+        "ir_range_ft": 50,
+        "wdr": true
+      }
+    },
+    {
+      "id": "AC-CAM-BULLET-01",
+      "name": "Bullet Camera (Outdoor)",
+      "category": "AC",
+      "subcategory": "Surveillance",
+      "partNumber": "AXIS-P1448-LE",
+      "manufacturer": "Axis",
+      "model": "P1448-LE",
+      "unitCost": 650.00,
+      "laborHours": 1.5,
+      "laborRate": 85.00,
+      "svgIcon": "bullet-camera.svg",
+      "mounting": "wall",
+      "placementRules": {
+        "mountHeight_ft": 12,
+        "coverageAngle_deg": 100,
+        "zoneTypes": ["parking", "entrance", "loading-dock", "pool", "patio", "outdoor"],
+        "notes": "Outdoor-rated IP67. Cover perimeter, parking, and outdoor gathering areas."
+      },
+      "specs": {
+        "resolution": "4K",
+        "poe": "802.3af",
+        "ir_range_ft": 100,
+        "ip_rating": "IP67"
+      }
+    },
+    {
+      "id": "AC-NVR-01",
+      "name": "Network Video Recorder",
+      "category": "AC",
+      "subcategory": "Surveillance",
+      "partNumber": "AXIS-S3016",
+      "manufacturer": "Axis",
+      "model": "S3016",
+      "unitCost": 3200.00,
+      "laborHours": 3.0,
+      "laborRate": 95.00,
+      "svgIcon": "nvr.svg",
+      "mounting": "rack",
+      "placementRules": {
+        "locationTypes": ["mdf", "security-room"],
+        "camerasPerUnit": 16,
+        "retentionDays": 30,
+        "notes": "1 per 16 cameras at 30 days retention. Scale storage for longer retention."
+      },
+      "specs": {
+        "channels": 16,
+        "storage_tb": 8,
+        "rack_units": 1
+      }
+    },
+    {
+      "id": "AC-READER-01",
+      "name": "Card Reader",
+      "category": "AC",
+      "subcategory": "Access",
+      "partNumber": "HID-SIGNO-20",
+      "manufacturer": "HID",
+      "model": "Signo 20",
+      "unitCost": 280.00,
+      "laborHours": 1.5,
+      "laborRate": 85.00,
+      "svgIcon": "card-reader.svg",
+      "mounting": "wall",
+      "placementRules": {
+        "mountHeight_ft": 4,
+        "locationTypes": ["door-entry", "gate"],
+        "zoneTypes": ["back-of-house", "mdf", "idf", "elevator", "pool", "fitness", "spa", "parking"],
+        "notes": "Secure-side mount at restricted entries. Include door controller in labor."
+      },
+      "specs": {
+        "protocols": ["iCLASS SE", "SEOS", "BLE"],
+        "mobile_capable": true,
+        "ip_rating": "IP55"
+      }
+    },
+    {
+      "id": "AC-PANEL-01",
+      "name": "Access Control Panel",
+      "category": "AC",
+      "subcategory": "Access",
+      "partNumber": "MERCURY-EP4502",
+      "manufacturer": "Mercury",
+      "model": "EP4502",
+      "unitCost": 1400.00,
+      "laborHours": 3.0,
+      "laborRate": 95.00,
+      "svgIcon": "access-panel.svg",
+      "mounting": "wall",
+      "placementRules": {
+        "locationTypes": ["mdf", "idf", "security-room"],
+        "doorsPerUnit": 8,
+        "notes": "1 per 8 controlled doors. Locate near reader clusters to minimize wiring."
+      },
+      "specs": {
+        "doors_supported": 8,
+        "inputs_outputs": 16,
+        "poe": false
+      }
+    }
+  ]
+}

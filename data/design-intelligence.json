@@ -1,0 +1,392 @@
+{
+  "version": "0.2.0",
+  "description": "Design Intelligence Engine — captures the reasoning a CTS-D designer uses when speccing systems. Organized by discipline (audio, video, networking, security) with environmental factors that modify every calculation.",
+  
+  "environmentalFactors": {
+    "description": "These are the questions the agent MUST ask or infer before it can design anything. A floor plan alone is not enough.",
+    "required": {
+      "ceilingHeight": {
+        "unit": "feet",
+        "impact": "Determines speaker model selection, mounting type, coverage geometry, display mounting, camera angles",
+        "ranges": {
+          "low": { "min": 8, "max": 10, "notes": "Standard ceiling speakers, standard mounts" },
+          "medium": { "min": 10, "max": 14, "notes": "May need pendant speakers or high-output models, extended drop mounts for displays" },
+          "high": { "min": 14, "max": 20, "notes": "Pendant or high-output speakers required, structural mounting considerations" },
+          "veryHigh": { "min": 20, "max": 60, "notes": "Specialized speaker arrays, distributed vs. point-source analysis required" }
+        }
+      },
+      "ceilingType": {
+        "options": ["drop-tile-2x2", "drop-tile-2x4", "drywall", "exposed-deck", "open-plenum", "wood", "concrete", "metal-deck", "thatched", "outdoor-none"],
+        "impact": {
+          "drop-tile-2x2": "Standard ceiling speaker cutout, tile-bridge mount, easy cable access",
+          "drop-tile-2x4": "Standard ceiling speaker cutout, tile-bridge mount, easy cable access",
+          "drywall": "Requires new-construction ring or retrofit clamp, harder cable routing",
+          "exposed-deck": "Pendant mount required, longer reverb time, visible cable management needed",
+          "open-plenum": "Pendant or suspended mount, acoustic treatment likely needed",
+          "concrete": "Surface mount or pendant, core drilling for cable, structural engineer may be needed",
+          "metal-deck": "Pendant mount, magnetic or beam clamp attachment, acoustic reflections",
+          "outdoor-none": "Weather-rated speakers required, wall or pole mount, different coverage calc"
+        }
+      },
+      "ambientNoise": {
+        "unit": "dBA",
+        "description": "Background noise level that the audio system must overcome",
+        "presets": {
+          "quiet-office": 40,
+          "lobby": 50,
+          "restaurant-casual": 55,
+          "restaurant-busy": 65,
+          "bar": 70,
+          "fitness-cardio": 75,
+          "fitness-group-class": 80,
+          "nightclub": 85,
+          "pool-indoor": 65,
+          "pool-outdoor": 60,
+          "warehouse": 70,
+          "parking-garage": 55,
+          "worship-service": 45,
+          "classroom": 35,
+          "conference-room": 35,
+          "ballroom-event": 65,
+          "corridor": 45,
+          "spa": 35
+        },
+        "rule": "Target SPL should be 10-25dB above ambient depending on use case. Background music = +10dB. Foreground music = +15-20dB. High-energy fitness/nightclub = +20-25dB. Paging/announcement = +15dB."
+      },
+      "wallFinishes": {
+        "options": ["drywall", "glass", "concrete", "brick", "wood-panel", "acoustic-panel", "curtain", "tile", "stone", "mixed"],
+        "impact": "Reflective surfaces (glass, concrete, tile, stone) increase reverb and reduce intelligibility. Absorptive surfaces (acoustic panel, curtain, carpet) reduce reverb. Mixed environments need zone-by-zone analysis."
+      },
+      "floorFinish": {
+        "options": ["carpet", "hardwood", "tile", "concrete", "rubber-mat", "vinyl", "stone", "mixed"],
+        "impact": "Hard floors add reflections. Carpet absorbs. Fitness centers typically have rubber mat (moderate absorption)."
+      },
+      "windowCoverage": {
+        "description": "Percentage of wall area that is glass/window",
+        "impact": "High glass = high reflections, display glare considerations, camera backlight issues"
+      },
+      "occupancyType": {
+        "description": "How the space is used — critical for SPL targets and coverage uniformity requirements",
+        "options": [
+          "background-music",
+          "foreground-music",
+          "high-energy-music",
+          "speech-reinforcement",
+          "paging-only",
+          "av-presentation",
+          "video-conferencing",
+          "worship",
+          "performance",
+          "retail-ambient",
+          "fitness-cardio",
+          "fitness-group-class",
+          "pool-recreation",
+          "spa-relaxation",
+          "bar-lounge",
+          "nightclub",
+          "dining-casual",
+          "dining-fine",
+          "hotel-lobby",
+          "hotel-corridor",
+          "hotel-ballroom",
+          "classroom",
+          "boardroom",
+          "open-office",
+          "warehouse-paging"
+        ]
+      },
+      "adjacencies": {
+        "description": "What's next to this space — sound isolation requirements",
+        "examples": [
+          "fitness next to spa = need sound isolation or volume zoning",
+          "ballroom next to meeting rooms = partition sensing, separate zones",
+          "bar next to restaurant = volume differential management",
+          "conference room next to conference room = speech privacy concerns"
+        ]
+      }
+    },
+    "optional": {
+      "existingInfrastructure": "What's already in place — conduit, cable paths, rack locations, existing speakers to reuse",
+      "budgetGuidance": "Client budget range — affects equipment tier selection",
+      "clientExpectation": "Quality expectation: basic/standard/premium/luxury",
+      "futureExpansion": "Planned changes to the space — helps size infrastructure",
+      "brandPreference": "Client or integrator preferred brands",
+      "networkExisting": "Existing network infrastructure and VLAN availability"
+    }
+  },
+
+  "audioDesign": {
+    "speakerSelection": {
+      "description": "Speaker model selection based on environmental factors, not just room type",
+      "logic": [
+        {
+          "condition": "ceilingType is drop-tile AND ceilingHeight <= 12",
+          "result": "Standard ceiling speaker (e.g., JBL Control 26CT, QSC AD-C6T)",
+          "reasoning": "Tile bridge mount, standard coverage angle sufficient"
+        },
+        {
+          "condition": "ceilingType is drop-tile AND ceilingHeight > 12 AND ceilingHeight <= 16",
+          "result": "High-output ceiling speaker (e.g., JBL Control 328CT, QSC AD-C820)",
+          "reasoning": "Higher output needed to maintain SPL at listening plane from increased height"
+        },
+        {
+          "condition": "ceilingType is exposed-deck OR open-plenum",
+          "result": "Pendant speaker (e.g., JBL Control 65P/T, QSC AD-P6T)",
+          "reasoning": "No ceiling grid for standard mount. Pendant brings speaker closer to listening plane."
+        },
+        {
+          "condition": "ceilingHeight > 16 AND occupancyType is high-energy-music",
+          "result": "High-output pendant or point-source speaker array",
+          "reasoning": "Standard ceiling speakers cannot achieve 85+ dBA at floor level from this height"
+        },
+        {
+          "condition": "outdoor OR ceilingType is outdoor-none",
+          "result": "Weather-rated speaker (e.g., JBL Control 28-1, QSC AD-S6T)",
+          "reasoning": "IP-rated enclosure required for moisture/UV exposure"
+        }
+      ]
+    },
+    
+    "coverageCalculation": {
+      "description": "Speaker quantity based on coverage geometry, not just sqft division",
+      "method": "Coverage diameter at listening plane determines spacing",
+      "formula": {
+        "step1": "Determine speaker mounting height above listening plane (ceiling height minus 4ft for standing, minus 3ft for seated)",
+        "step2": "Look up speaker coverage angle from spec sheet (typically 100-150 degrees conical)",
+        "step3": "Calculate coverage diameter: D = 2 × H × tan(angle/2) where H = mounting height above ear",
+        "step4": "Apply edge-to-edge overlap of 50% for uniform coverage: spacing = D × 0.707",
+        "step5": "Grid layout: rows = room_length / spacing, cols = room_width / spacing",
+        "step6": "Total speakers = rows × cols (round up)",
+        "step7": "Verify SPL: if calculated SPL at listener < target, upgrade to higher output model or reduce spacing"
+      },
+      "example": {
+        "room": "2000 sqft fitness center, 50ft × 40ft",
+        "ceilingHeight": 14,
+        "ceilingType": "exposed-deck",
+        "speakerModel": "JBL Control 65P/T pendant",
+        "coverageAngle": 120,
+        "mountingHeight": "14ft ceiling, pendant drops 2ft = 12ft mount, minus 5.5ft ear height = 6.5ft above ear",
+        "coverageDiameter": "2 × 6.5 × tan(60°) = 2 × 6.5 × 1.732 = 22.5 ft",
+        "spacing": "22.5 × 0.707 = 15.9 ft",
+        "rows": "50 / 15.9 = 3.14 → 4 rows",
+        "cols": "40 / 15.9 = 2.52 → 3 cols",
+        "totalSpeakers": "4 × 3 = 12 speakers",
+        "note": "Compare to naive sqft rule: 2000/250 = 8 speakers. The geometry-based calc says 12 for uniform coverage. The sqft rule would leave dead spots."
+      }
+    },
+
+    "splVerification": {
+      "description": "Verify the system can hit target SPL at the listener position",
+      "formula": {
+        "singleSpeakerSPL": "SPL_1m (from spec) - 20×log10(distance_to_listener) = SPL at listener",
+        "multipleSourcesBoost": "+3dB per doubling of speakers in overlap zone (approximate)",
+        "amplifierPower": "Required watts = 10^((target_SPL - sensitivity) / 10) where sensitivity is at 1W/1m",
+        "headroom": "Add 6-10dB headroom above target for peaks and dynamic range"
+      },
+      "targets": {
+        "background-music": { "min": 65, "max": 75, "notes": "Subtle, below conversation level" },
+        "foreground-music": { "min": 75, "max": 85, "notes": "Clearly audible, some effort to talk over" },
+        "high-energy-music": { "min": 85, "max": 95, "notes": "Dominant, conversation difficult" },
+        "speech-reinforcement": { "min": 70, "max": 80, "notes": "Clear intelligibility is priority over volume" },
+        "paging-only": { "min": 65, "max": 75, "notes": "Must be intelligible over ambient" },
+        "fitness-cardio": { "min": 80, "max": 88, "notes": "Competes with treadmills, ellipticals" },
+        "fitness-group-class": { "min": 85, "max": 95, "notes": "Instructor + music, high energy" }
+      }
+    },
+
+    "amplifierSizing": {
+      "description": "Amp sizing based on actual power requirements, not just speaker count",
+      "method": [
+        "Calculate total watts needed: sum of (per-speaker wattage × number of speakers) per zone",
+        "Per-speaker wattage: based on SPL target, speaker sensitivity, distance, headroom",
+        "Apply 80% rule: don't run amps above 80% rated power for thermal headroom",
+        "Total amp channels needed: typically 1 channel per speaker or zone depending on impedance topology",
+        "Select amp: match total watts at impedance (4/8/70V/100V line), channel count, rack space"
+      ],
+      "topology": {
+        "lowImpedance": {
+          "when": "Small zones with few speakers (1-4), short cable runs (<100ft)",
+          "notes": "Simpler, better fidelity, but limited speakers per channel"
+        },
+        "distributedLine70V": {
+          "when": "Large zones, many speakers, long cable runs, commercial installations",
+          "notes": "Industry standard for commercial AV. Each speaker taps power from line. Cable gauge matters."
+        },
+        "distributedLine100V": {
+          "when": "Same as 70V but for international installations or very long runs",
+          "notes": "Higher voltage = less current = smaller cable for same power"
+        },
+        "danteAoIP": {
+          "when": "Large, complex venues where zones change frequently, premium installations",
+          "notes": "Each speaker (or amp) is networked. Most flexible but highest cost and complexity."
+        }
+      }
+    },
+
+    "dspRequirements": {
+      "description": "DSP needed for EQ, routing, volume control, zone management",
+      "rules": [
+        "Every commercial audio system needs DSP — no exceptions",
+        "Minimum: input routing, output EQ, volume control per zone",
+        "Add delay processing if speakers at different distances from listener",
+        "Add feedback suppression if open microphones (paging, conferencing)",
+        "Add automatic gain control for spaces with varying occupancy",
+        "Channel count: inputs (sources) + outputs (speaker zones) determines DSP model",
+        "Consider Dante/AoIP vs analog connections based on infrastructure"
+      ]
+    },
+
+    "subwooferPlacement": {
+      "description": "Subwoofers have omnidirectional low-frequency output — placement rules differ from speakers",
+      "rules": [
+        "Subs are NOT 1-per-X-speakers. They fill the room's low-frequency content.",
+        "Small room (<1000 sqft): 1 sub is usually sufficient",
+        "Medium room (1000-3000 sqft): 1-2 subs depending on SPL target",
+        "Large room (3000-10000 sqft): 2-4 subs, distributed to avoid standing waves",
+        "Very large (>10000 sqft): Distributed sub arrays, requires acoustic modeling",
+        "Corner loading: placing sub near a wall boundary gives +3dB, in a corner gives +6dB",
+        "Ceiling subs exist for fitness/retail but have lower output than floor subs"
+      ]
+    }
+  },
+
+  "videoDesign": {
+    "displaySizing": {
+      "description": "Display size based on viewing distance and content type",
+      "standards": {
+        "avixa_v201": {
+          "basicDecision": "Viewer can make basic YES/NO decisions. Min character height = viewing distance / 200",
+          "passiveViewing": "Digital signage, ambient content. Min display height = viewing distance / 8",
+          "analyticalDecision": "Viewer needs to read text, analyze data. Min character height = viewing distance / 100",
+          "inspection": "Critical detail viewing (medical, security). Min character height = viewing distance / 50"
+        }
+      },
+      "rules": [
+        "Maximum viewing distance for a 55\" display (basic decision): ~36ft",
+        "Maximum viewing distance for a 65\" display (basic decision): ~42ft",
+        "Maximum viewing distance for a 75\" display (basic decision): ~48ft",
+        "For 4K content, minimum viewing distance = 1.5× display height for full resolution benefit",
+        "Mounting height: center of display at standing eye height (5.5ft) or seated (4ft) ±6 inches",
+        "In fitness: mount higher (7-8ft center) for visibility over equipment, but reduce max viewing distance"
+      ]
+    },
+    "contentType": {
+      "description": "Content determines resolution and display tier requirements",
+      "types": {
+        "digital-signage": "4K preferred, commercial panel with 500+ nit brightness, 16/7 or 24/7 rated",
+        "cable-tv-sports": "4K, fast refresh rate, commercial tuner or content player",
+        "presentation": "4K, accurate color, HDMI/USB-C input, interactive option for meeting rooms",
+        "menu-board": "4K commercial, portrait orientation support, bright (700+ nit)",
+        "wayfinding": "Touch-enabled, commercial rated, accessible mounting height",
+        "video-wall": "Narrow bezel panels, content management system, dedicated processor"
+      }
+    }
+  },
+
+  "networkDesign": {
+    "wirelessCoverage": {
+      "description": "AP placement based on density requirements, not just area",
+      "rules": [
+        "Coverage area per AP varies dramatically: 1500-5000 sqft depending on construction and density",
+        "High-density (conference, ballroom, lobby): 1 AP per 30-50 users or 1500-2000 sqft",
+        "Medium-density (office, restaurant, fitness): 1 AP per 2000-3000 sqft",
+        "Low-density (corridor, BOH, parking): 1 AP per 3000-5000 sqft",
+        "Wall material attenuation: drywall -3dB, glass -2dB, concrete -15dB, elevator shaft -40dB",
+        "Channel planning: max 3 non-overlapping channels on 2.4GHz, 24+ on 5/6GHz",
+        "Mount APs at ceiling, centered in coverage zone, away from metal objects"
+      ]
+    },
+    "switchSizing": {
+      "description": "Switch sizing based on actual PoE device count and power budget",
+      "rules": [
+        "Count ALL PoE devices: APs, cameras, touch panels, IP speakers, phones, door hardware",
+        "PoE budget per device: AP=15-30W, camera=12-25W, touch panel=15W, phone=7W",
+        "Total PoE watts determines switch model (150W, 370W, 740W budgets typical)",
+        "Add 25% headroom to PoE budget for future devices",
+        "Uplink: every access switch needs 10G uplink to distribution/core",
+        "Don't forget management ports, AP controller, NVR connections"
+      ]
+    }
+  },
+
+  "securityDesign": {
+    "cameraPlacement": {
+      "description": "Camera placement based on what needs to be SEEN, not just sqft",
+      "principles": [
+        "Identify what you need to capture: face identification, license plate, activity overview, perimeter",
+        "IDENTIFICATION requires 80+ pixels per foot — close range, narrow FOV",
+        "RECOGNITION requires 40+ pixels per foot — medium range",
+        "DETECTION requires 20+ pixels per foot — wide FOV, overview",
+        "Match camera resolution and lens to required pixels-per-foot at the target distance",
+        "Indoor: domes for aesthetics and vandal resistance",
+        "Outdoor: bullets for range, domes for vandal areas, PTZ for large open areas",
+        "Lighting: IR illumination range must match or exceed camera view distance",
+        "Storage: calculate per camera: resolution × fps × hours × retention days = storage"
+      ]
+    },
+    "storageCalculation": {
+      "formula": "Bitrate (Mbps) × 3600 × hours_per_day × retention_days / 8 / 1024 / 1024 = TB per camera",
+      "typical": {
+        "1080p-15fps-h264": "~8 Mbps → ~2.6 TB per camera for 30 days at 24/7",
+        "4K-15fps-h265": "~12 Mbps → ~3.9 TB per camera for 30 days at 24/7",
+        "4K-30fps-h265": "~20 Mbps → ~6.5 TB per camera for 30 days at 24/7"
+      },
+      "notes": "Motion-based recording reduces storage 40-70% depending on activity level"
+    }
+  },
+
+  "designQuestionnaire": {
+    "description": "The agent should collect this information before designing. This is the conversational flow.",
+    "phase1_basics": [
+      "What type of space is this? (room type / use case)",
+      "What is the approximate square footage?",
+      "What is the ceiling height?",
+      "What type of ceiling? (drop tile, drywall, exposed, etc.)"
+    ],
+    "phase2_environment": [
+      "What are the wall finishes? (glass, drywall, concrete, etc.)",
+      "What is the floor finish? (carpet, hardwood, rubber, etc.)",
+      "Is this a new construction or retrofit?",
+      "Any existing infrastructure we can leverage?"
+    ],
+    "phase3_requirements": [
+      "What is the audio use case? (background music, foreground, paging, presentation, etc.)",
+      "What video/display needs are there?",
+      "What security requirements? (cameras, access control, etc.)",
+      "Expected occupancy / user count?",
+      "Any adjacency concerns? (noise bleed to neighboring spaces)"
+    ],
+    "phase4_preferences": [
+      "Budget range? (value, mid-tier, premium)",
+      "Brand preferences or restrictions?",
+      "Network: existing infrastructure or greenfield?",
+      "Timeline and phasing requirements?"
+    ]
+  },
+
+  "agentBehavior": {
+    "designerDrivenMode": {
+      "description": "Designer places equipment. Agent validates, catches gaps, suggests improvements.",
+      "triggers": [
+        "Designer places standard ceiling speakers in a room with 16ft exposed ceiling → Agent: 'Ceiling height is 16ft with exposed deck — standard ceiling speakers won't have sufficient SPL at the listening plane. Consider pendant-mount high-output models.'",
+        "Designer has 8 cameras but no NVR → Agent: 'You have 8 cameras specified but no NVR or recording solution. At 1080p/15fps with 30-day retention, you need approximately 21TB of storage.'",
+        "Designer specs 12 PoE devices on a switch with 150W budget → Agent: 'Estimated PoE draw is 240W which exceeds the 150W budget on this switch. Consider upgrading to a 370W model.'",
+        "Designer has speakers in a spa zone at same volume setting as adjacent fitness → Agent: 'The spa zone is adjacent to fitness. Consider independent volume control and sound masking to prevent bleed.'"
+      ]
+    },
+    "agentDrivenMode": {
+      "description": "Agent designs the system. Designer reviews and refines.",
+      "flow": [
+        "1. Agent receives floor plan + zone definitions",
+        "2. Agent asks environmental questions (questionnaire above) for each zone",
+        "3. Agent performs coverage calculations using actual geometry, not sqft shortcuts",
+        "4. Agent selects equipment based on environmental factors + calculation results",
+        "5. Agent sizes infrastructure (amps, DSP, switches, NVR) based on device totals",
+        "6. Agent places equipment on canvas with proper spacing",
+        "7. Agent presents design with reasoning: 'I selected 12 pendant speakers because...'",
+        "8. Designer reviews, adjusts, approves",
+        "9. Agent generates proposal with design notes and standards citations"
+      ]
+    }
+  }
+}

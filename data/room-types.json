@@ -1,0 +1,933 @@
+{
+  "version": "2.0.0",
+  "lastUpdated": "2026-02-11",
+  "description": "Comprehensive room type definitions across residential, multifamily, and commercial verticals. Each room type carries environmental defaults, audio/video/network/security guidance, and equipment formulas. Environmental defaults are starting points — the agent should confirm or override based on actual site conditions.",
+
+  "verticals": {
+
+    "residential": {
+      "label": "Residential",
+      "description": "Single-family homes, estates, custom builds. Typically Control4/Crestron/Savant control, emphasis on aesthetics, WAF (wife acceptance factor), and invisible tech.",
+
+      "roomTypes": {
+
+        "res-living": {
+          "label": "Living Room / Great Room",
+          "description": "Primary family gathering space. High-quality audio and video, streaming, casual listening. Often open to kitchen/dining.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drywall",
+            "ambientNoise": 40,
+            "floorFinish": "hardwood",
+            "occupancyType": "foreground-music"
+          },
+          "audio": {
+            "approach": "Architectural ceiling or in-wall speakers for distributed music. Surround system optional around TV area.",
+            "speakerRule": { "per": 250, "min": 4, "type": "ceiling-standard" },
+            "subwoofer": "1 minimum for music quality, hide in cabinet or closet",
+            "splTarget": { "min": 70, "max": 80 }
+          },
+          "video": {
+            "approach": "Primary display — 65-85\" depending on viewing distance. Motorized mount or recessed niche common.",
+            "displayRule": { "fixed": 1, "sizeGuide": "viewing-distance-based" }
+          },
+          "network": { "apRule": { "per": 2500, "min": 1 } },
+          "security": { "cameras": "Typically none interior in residential", "accessControl": "none" },
+          "control": { "touchPanel": 0, "keypad": 1, "remote": 1, "voiceControl": true },
+          "notes": "Open floor plans with kitchen/dining should be treated as one audio zone or separate zones with synced sources."
+        },
+
+        "res-kitchen": {
+          "label": "Kitchen",
+          "description": "Cooking and gathering space. Audio for music while cooking. Small display common for recipes/TV.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drywall",
+            "ambientNoise": 55,
+            "floorFinish": "tile",
+            "occupancyType": "background-music"
+          },
+          "audio": {
+            "approach": "Ceiling speakers, moisture-aware if near steam/water.",
+            "speakerRule": { "per": 200, "min": 2, "type": "ceiling-standard" },
+            "splTarget": { "min": 65, "max": 75 }
+          },
+          "video": { "displayRule": { "fixed": 0, "optional": "small display or under-cabinet TV" } },
+          "network": { "apRule": { "per": 0, "notes": "Covered by adjacent room AP" } },
+          "security": { "cameras": "none", "accessControl": "none" },
+          "control": { "keypad": 1, "voiceControl": true },
+          "notes": "Often grouped as audio zone with living room in open plans."
+        },
+
+        "res-master-bed": {
+          "label": "Master Bedroom",
+          "description": "Private retreat. Audio for sleep sounds/music, display for TV viewing, motorized shading.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drywall",
+            "ambientNoise": 30,
+            "floorFinish": "carpet",
+            "occupancyType": "background-music"
+          },
+          "audio": {
+            "speakerRule": { "per": 300, "min": 2, "type": "ceiling-standard" },
+            "splTarget": { "min": 55, "max": 70 }
+          },
+          "video": { "displayRule": { "fixed": 1, "sizeGuide": "55-65\" typical, viewing from bed" } },
+          "network": { "apRule": { "per": 0, "notes": "Covered by hallway/adjacent AP" } },
+          "security": { "cameras": "none", "accessControl": "none" },
+          "control": { "keypad": 1, "remote": 1, "motorizedShading": true },
+          "notes": "Volume limits at night. Consider separate zone from en-suite bathroom."
+        },
+
+        "res-bedroom": {
+          "label": "Bedroom (Secondary)",
+          "description": "Standard bedroom — simpler AV, may be kids room, guest room.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "drywall",
+            "ambientNoise": 30,
+            "floorFinish": "carpet",
+            "occupancyType": "background-music"
+          },
+          "audio": {
+            "speakerRule": { "per": 300, "min": 2, "type": "ceiling-standard" },
+            "splTarget": { "min": 55, "max": 70 }
+          },
+          "video": { "displayRule": { "fixed": 1, "sizeGuide": "43-55\" typical", "optional": true } },
+          "network": { "apRule": { "per": 0 } },
+          "security": { "cameras": "none" },
+          "control": { "keypad": 1 }
+        },
+
+        "res-master-bath": {
+          "label": "Master Bathroom",
+          "description": "Moisture environment. Speakers must be moisture-rated. Mirror TV optional.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "drywall",
+            "ambientNoise": 45,
+            "floorFinish": "tile",
+            "occupancyType": "background-music"
+          },
+          "audio": {
+            "speakerRule": { "per": 150, "min": 2, "type": "ceiling-moisture-rated" },
+            "splTarget": { "min": 60, "max": 70 }
+          },
+          "video": { "displayRule": { "fixed": 0, "optional": "mirror TV or waterproof display" } },
+          "notes": "Speakers must be rated for moisture. Keep volume controls accessible."
+        },
+
+        "res-home-theater": {
+          "label": "Home Theater / Media Room",
+          "description": "Dedicated entertainment space. Surround sound, projector or large display, acoustic treatment, lighting control.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drywall",
+            "ambientNoise": 25,
+            "floorFinish": "carpet",
+            "wallFinishes": "acoustic-panel",
+            "occupancyType": "performance"
+          },
+          "audio": {
+            "approach": "Dedicated surround system: LCR, surrounds, height channels (Atmos). NOT distributed audio.",
+            "speakerRule": { "fixed": null, "notes": "5.1.2 minimum, 7.2.4 for premium. Designed per room geometry, not sqft." },
+            "subwoofer": "2 minimum for even bass distribution",
+            "splTarget": { "min": 85, "max": 105, "notes": "Reference level cinema is 85dB with 20dB headroom" }
+          },
+          "video": { "displayRule": { "fixed": 1, "notes": "Projector + screen for >100\", 75-85\" display for smaller rooms. Screen size based on seating distance." } },
+          "network": { "apRule": { "per": 0, "notes": "Wired devices preferred, streaming box hardwired" } },
+          "control": { "touchPanel": 1, "remote": 1, "keypad": 1, "lightingControl": true },
+          "notes": "Acoustic treatment critical. Dedicated circuit recommended for AV equipment. Room should be light-controlled."
+        },
+
+        "res-office": {
+          "label": "Home Office",
+          "description": "Work from home space. Video conferencing, audio for calls and music, good network.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drywall",
+            "ambientNoise": 35,
+            "floorFinish": "hardwood",
+            "occupancyType": "av-presentation"
+          },
+          "audio": {
+            "speakerRule": { "per": 200, "min": 2, "type": "ceiling-standard" },
+            "splTarget": { "min": 60, "max": 70 }
+          },
+          "video": { "displayRule": { "fixed": 1, "optional": true, "notes": "External monitor or TV for video calls" } },
+          "network": { "apRule": { "min": 1, "notes": "Hardwired ethernet drop essential, WiFi AP nearby" } },
+          "control": { "keypad": 1, "voiceControl": true },
+          "notes": "Hardwired ethernet is a must. Consider USB-C docking integration."
+        },
+
+        "res-outdoor-patio": {
+          "label": "Outdoor Living / Patio",
+          "description": "Covered or uncovered outdoor space. Weather-rated everything.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "outdoor-none",
+            "ambientNoise": 55,
+            "floorFinish": "stone",
+            "occupancyType": "foreground-music"
+          },
+          "audio": {
+            "approach": "Outdoor-rated speakers. Landscape speakers for yard, surface-mount for covered patio.",
+            "speakerRule": { "per": 300, "min": 2, "type": "outdoor-rated" },
+            "subwoofer": "1 outdoor sub for music quality",
+            "splTarget": { "min": 70, "max": 82 }
+          },
+          "video": { "displayRule": { "fixed": 0, "optional": "outdoor-rated TV, brightness 2000+ nit" } },
+          "network": { "apRule": { "min": 1, "type": "outdoor-rated" } },
+          "security": { "cameras": { "min": 1, "type": "bullet-outdoor" } },
+          "notes": "All speakers, APs, cameras must be outdoor/weather rated. Burial-rated cable for landscape speakers."
+        },
+
+        "res-pool": {
+          "label": "Pool / Pool House",
+          "description": "Water environment. Speakers for poolside, possible pool house with its own system.",
+          "defaults": {
+            "ceilingHeight": 0,
+            "ceilingType": "outdoor-none",
+            "ambientNoise": 60,
+            "floorFinish": "stone",
+            "occupancyType": "foreground-music"
+          },
+          "audio": {
+            "speakerRule": { "per": 400, "min": 4, "type": "outdoor-rated" },
+            "splTarget": { "min": 72, "max": 85 }
+          },
+          "security": { "cameras": { "min": 2, "type": "bullet-outdoor", "notes": "Safety monitoring" } },
+          "notes": "Pool equipment noise (pump, heater) is 50-65dBA ambient. Speakers must overcome this."
+        },
+
+        "res-garage": {
+          "label": "Garage",
+          "description": "Parking and workshop space. Basic audio, good WiFi, cameras.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "drywall",
+            "ambientNoise": 45,
+            "floorFinish": "concrete",
+            "occupancyType": "background-music"
+          },
+          "audio": {
+            "speakerRule": { "per": 400, "min": 2, "type": "ceiling-standard" },
+            "splTarget": { "min": 65, "max": 75 }
+          },
+          "network": { "apRule": { "min": 1 } },
+          "security": { "cameras": { "min": 1, "type": "dome-indoor" }, "accessControl": "garage-door-control" },
+          "control": { "keypad": 1 }
+        },
+
+        "res-hallway": {
+          "label": "Hallway / Foyer / Entry",
+          "description": "Transition space. Light audio, possible entry camera, doorbell, access control.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drywall",
+            "ambientNoise": 35,
+            "floorFinish": "hardwood",
+            "occupancyType": "background-music"
+          },
+          "audio": {
+            "speakerRule": { "per": 400, "min": 1, "type": "ceiling-standard" },
+            "splTarget": { "min": 55, "max": 65 }
+          },
+          "security": { "cameras": { "notes": "Doorbell camera at entry" }, "accessControl": "smart-lock" },
+          "control": { "keypad": 1 }
+        },
+
+        "res-laundry": {
+          "label": "Laundry Room",
+          "description": "Utility space. Optional speakers, moisture aware.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "drywall",
+            "ambientNoise": 60,
+            "occupancyType": "background-music"
+          },
+          "audio": {
+            "speakerRule": { "per": 0, "min": 1, "type": "ceiling-moisture-rated", "optional": true },
+            "splTarget": { "min": 65, "max": 75 }
+          },
+          "notes": "High ambient noise from washer/dryer. Optional zone."
+        },
+
+        "res-wine-cellar": {
+          "label": "Wine Cellar / Tasting Room",
+          "description": "Specialty space. Background music, climate monitoring, subtle lighting.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "wood",
+            "ambientNoise": 30,
+            "floorFinish": "stone",
+            "occupancyType": "background-music"
+          },
+          "audio": {
+            "speakerRule": { "per": 200, "min": 2, "type": "ceiling-standard" },
+            "splTarget": { "min": 55, "max": 65 }
+          },
+          "notes": "Consider environmental monitoring (temp/humidity sensor integration)."
+        }
+      }
+    },
+
+    "multifamily": {
+      "label": "Multi-Family / MDU",
+      "description": "Apartments, condos, senior living, student housing. Common areas plus in-unit. Riser infrastructure, bulk services, access control throughout.",
+
+      "roomTypes": {
+
+        "mf-unit-studio": {
+          "label": "Unit — Studio / 1BR",
+          "description": "Individual residential unit. Pre-wire for audio, network drops, smart home ready.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "drywall",
+            "ambientNoise": 40,
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "per": 250, "min": 2, "prewireOnly": true } },
+          "network": { "apRule": { "min": 1, "notes": "WAP per unit or centralized managed WiFi" } },
+          "security": { "accessControl": "smart-lock" },
+          "notes": "Bulk WiFi or per-unit drops depending on property management model."
+        },
+
+        "mf-unit-2br": {
+          "label": "Unit — 2BR+",
+          "description": "Larger unit. Multiple audio zones possible, 2+ network drops.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "drywall",
+            "ambientNoise": 40,
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "per": 250, "min": 4, "prewireOnly": true, "zones": 2 } },
+          "network": { "apRule": { "min": 1, "notes": "1 AP per 1200 sqft in unit" } },
+          "security": { "accessControl": "smart-lock" }
+        },
+
+        "mf-lobby": {
+          "label": "Building Lobby / Entrance",
+          "description": "First impression space. Background music, directory display, intercom, access control, cameras.",
+          "defaults": {
+            "ceilingHeight": 12,
+            "ceilingType": "drywall",
+            "ambientNoise": 50,
+            "floorFinish": "tile",
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "per": 300, "min": 2, "type": "ceiling-standard" }, "splTarget": { "min": 60, "max": 72 } },
+          "video": { "displayRule": { "fixed": 1, "notes": "Building directory / digital signage" } },
+          "network": { "apRule": { "min": 1, "highDensity": true } },
+          "security": {
+            "cameras": { "per": 500, "min": 2, "type": "dome-indoor" },
+            "accessControl": "card-reader-plus-intercom",
+            "intercom": "door-station"
+          },
+          "control": { "touchPanel": 0 }
+        },
+
+        "mf-amenity-gym": {
+          "label": "Amenity — Fitness Center",
+          "description": "Shared fitness space. High-output audio, displays for cardio, cameras, access control.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 75,
+            "floorFinish": "rubber-mat",
+            "occupancyType": "fitness-cardio"
+          },
+          "audio": { "speakerRule": { "per": 250, "min": 4, "type": "ceiling-high-output" }, "subwoofer": { "per": 1000, "min": 1 }, "splTarget": { "min": 80, "max": 88 } },
+          "video": { "displayRule": { "per": 600, "min": 2, "notes": "Mounted above cardio equipment" } },
+          "network": { "apRule": { "per": 2000, "min": 1 } },
+          "security": { "cameras": { "per": 800, "min": 1 }, "accessControl": "card-reader" }
+        },
+
+        "mf-amenity-pool": {
+          "label": "Amenity — Pool / Hot Tub",
+          "description": "Outdoor or indoor pool area. Weather-rated equipment, safety cameras.",
+          "defaults": {
+            "ceilingHeight": 0,
+            "ceilingType": "outdoor-none",
+            "ambientNoise": 60,
+            "occupancyType": "foreground-music"
+          },
+          "audio": { "speakerRule": { "per": 400, "min": 4, "type": "outdoor-rated" }, "splTarget": { "min": 70, "max": 82 } },
+          "network": { "apRule": { "min": 1, "type": "outdoor-rated" } },
+          "security": { "cameras": { "min": 2, "type": "bullet-outdoor", "notes": "Safety and liability" } },
+          "notes": "Required by many insurance carriers. Check local codes for camera placement near pool."
+        },
+
+        "mf-amenity-clubhouse": {
+          "label": "Amenity — Clubhouse / Community Room",
+          "description": "Multi-purpose event space. Flexible AV for parties, meetings, movie nights.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 50,
+            "floorFinish": "hardwood",
+            "occupancyType": "foreground-music"
+          },
+          "audio": { "speakerRule": { "per": 200, "min": 4, "type": "ceiling-standard" }, "subwoofer": { "per": 1500, "min": 1 }, "splTarget": { "min": 72, "max": 85 } },
+          "video": { "displayRule": { "fixed": 1, "sizeGuide": "75\"+ or projector for movie nights" } },
+          "network": { "apRule": { "min": 1, "highDensity": true } },
+          "security": { "cameras": { "min": 1 }, "accessControl": "card-reader" },
+          "control": { "touchPanel": 1, "notes": "Simple interface for residents and staff" }
+        },
+
+        "mf-amenity-cowork": {
+          "label": "Amenity — Co-Working Space",
+          "description": "Shared work area with private phone rooms. Strong WiFi, conferencing, quiet audio.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 40,
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "per": 400, "min": 2, "type": "ceiling-standard" }, "splTarget": { "min": 55, "max": 65 }, "soundMasking": true },
+          "video": { "displayRule": { "notes": "Display in bookable conference nook" } },
+          "network": { "apRule": { "per": 1500, "min": 1, "highDensity": true } },
+          "security": { "accessControl": "card-reader" },
+          "notes": "Sound masking between workstations. Phone rooms need acoustic isolation."
+        },
+
+        "mf-corridor": {
+          "label": "Corridor / Hallway",
+          "description": "Common hallways. Light speakers, cameras, access control at secure doors.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 40,
+            "occupancyType": "paging-only"
+          },
+          "audio": { "speakerRule": { "per": 500, "min": 1, "type": "ceiling-standard" }, "splTarget": { "min": 60, "max": 70 } },
+          "network": { "apRule": { "per": 3000, "min": 1 } },
+          "security": { "cameras": { "per": 800, "min": 1 }, "accessControl": { "per": "secure-door" } }
+        },
+
+        "mf-parking": {
+          "label": "Parking Garage / Surface Lot",
+          "description": "Vehicle areas. Cameras for coverage, readers at entry/exit, intercom at gates.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "concrete",
+            "ambientNoise": 55,
+            "occupancyType": "paging-only"
+          },
+          "audio": { "speakerRule": { "per": 5000, "min": 1, "type": "horn-paging", "optional": true } },
+          "network": { "apRule": { "per": 10000, "min": 1 } },
+          "security": {
+            "cameras": { "per": 3000, "min": 4, "type": "bullet-outdoor", "notes": "Cover entry/exit lanes, elevator lobbies, stairwells" },
+            "accessControl": "card-reader-plus-gate",
+            "intercom": "gate-station"
+          }
+        },
+
+        "mf-leasing": {
+          "label": "Leasing Office",
+          "description": "Sales/management office. Professional AV, conferencing, digital signage.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 40,
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "per": 250, "min": 2, "type": "ceiling-standard" }, "splTarget": { "min": 60, "max": 70 } },
+          "video": { "displayRule": { "fixed": 1, "notes": "Property showcase / digital signage" } },
+          "network": { "apRule": { "min": 1 } },
+          "security": { "cameras": { "min": 1 }, "accessControl": "none" }
+        },
+
+        "mf-mail-package": {
+          "label": "Mail Room / Package Room",
+          "description": "Parcel delivery and pickup. Cameras required, access control.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 40
+          },
+          "security": {
+            "cameras": { "min": 1, "type": "dome-indoor", "notes": "Cover all package lockers and entry" },
+            "accessControl": "card-reader"
+          }
+        },
+
+        "mf-riser-idf": {
+          "label": "Telecom Riser / IDF",
+          "description": "Network distribution closet. Rack, switch, patch panels. Not a living space.",
+          "defaults": { "ceilingHeight": 8, "ceilingType": "drywall" },
+          "network": { "notes": "Rack, switch, UPS, patch panels. Ventilation/cooling required. 1 per floor or per 50 units." },
+          "security": { "accessControl": "card-reader", "cameras": { "min": 0, "optional": true } },
+          "notes": "Dedicated circuit, proper ventilation, minimum 42\" deep rack for cable management."
+        }
+      }
+    },
+
+    "commercial": {
+      "label": "Commercial",
+      "description": "Office, retail, hospitality, education, worship, healthcare, restaurant/bar. Widest range of room types.",
+
+      "roomTypes": {
+
+        "com-open-office": {
+          "label": "Open Office",
+          "description": "Cubicle or open-plan workspace. Sound masking, paging, WiFi density.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 50,
+            "floorFinish": "carpet",
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "per": 400, "min": 2, "type": "ceiling-standard" }, "splTarget": { "min": 55, "max": 65 }, "soundMasking": true },
+          "network": { "apRule": { "per": 1500, "min": 1, "highDensity": true } },
+          "security": { "cameras": { "per": 2000, "min": 1 } }
+        },
+
+        "com-private-office": {
+          "label": "Private Office",
+          "description": "Individual enclosed office. Speaker for paging/music, possible small display.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 35,
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "fixed": 1, "type": "ceiling-standard" }, "splTarget": { "min": 55, "max": 65 } },
+          "network": { "notes": "Covered by open office AP" }
+        },
+
+        "com-conference-sm": {
+          "label": "Conference Room — Small (2-6 people)",
+          "description": "Huddle room. Display, camera, ceiling mic, speakers for UC.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 35,
+            "occupancyType": "video-conferencing"
+          },
+          "audio": { "speakerRule": { "fixed": 2, "type": "ceiling-standard" }, "microphone": { "fixed": 1, "type": "ceiling-array" }, "splTarget": { "min": 65, "max": 75 } },
+          "video": { "displayRule": { "fixed": 1, "sizeGuide": "55-65\"", "camera": true } },
+          "network": { "apRule": { "fixed": 1 } },
+          "control": { "touchPanel": 1, "notes": "Room scheduling display outside" }
+        },
+
+        "com-conference-lg": {
+          "label": "Conference Room — Large (8-20 people)",
+          "description": "Boardroom. Dual displays, ceiling mics, DSP, possible wireless presentation.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 35,
+            "occupancyType": "video-conferencing"
+          },
+          "audio": {
+            "speakerRule": { "per": 150, "min": 4, "type": "ceiling-standard" },
+            "microphone": { "per": 200, "min": 2, "type": "ceiling-array" },
+            "splTarget": { "min": 65, "max": 78 }
+          },
+          "video": { "displayRule": { "fixed": 2, "sizeGuide": "75\"+ or dual 65\"", "camera": true } },
+          "network": { "apRule": { "fixed": 1 } },
+          "control": { "touchPanel": 1, "wirelessPresentation": true }
+        },
+
+        "com-training": {
+          "label": "Training Room / Classroom",
+          "description": "Presentation-focused. Front display/projector, distributed audio, possible divisible.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 35,
+            "occupancyType": "speech-reinforcement"
+          },
+          "audio": { "speakerRule": { "per": 200, "min": 4, "type": "ceiling-standard" }, "microphone": { "fixed": 1, "type": "wireless-handheld" }, "splTarget": { "min": 70, "max": 80 } },
+          "video": { "displayRule": { "fixed": 1, "sizeGuide": "projector + screen or 85\"+ display" } },
+          "network": { "apRule": { "min": 1, "highDensity": true } },
+          "control": { "touchPanel": 1 }
+        },
+
+        "com-lobby": {
+          "label": "Lobby / Reception",
+          "description": "First impression. Background music, digital signage, visitor management, cameras.",
+          "defaults": {
+            "ceilingHeight": 12,
+            "ceilingType": "drywall",
+            "ambientNoise": 50,
+            "floorFinish": "tile",
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "per": 300, "min": 2, "type": "ceiling-standard" }, "splTarget": { "min": 60, "max": 70 } },
+          "video": { "displayRule": { "fixed": 1, "notes": "Digital signage or company branding" } },
+          "network": { "apRule": { "min": 1, "highDensity": true } },
+          "security": { "cameras": { "min": 1, "type": "dome-indoor" }, "accessControl": "card-reader-plus-visitor" }
+        },
+
+        "com-restaurant": {
+          "label": "Restaurant — Dining Area",
+          "description": "Dining space. Background to foreground music, possible display for sports/brand.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "exposed-deck",
+            "ambientNoise": 60,
+            "floorFinish": "hardwood",
+            "occupancyType": "foreground-music"
+          },
+          "audio": { "speakerRule": { "per": 200, "min": 4, "type": "environment-dependent" }, "splTarget": { "min": 68, "max": 78 } },
+          "video": { "displayRule": { "per": 800, "optional": true } },
+          "network": { "apRule": { "per": 1500, "min": 1 } },
+          "security": { "cameras": { "per": 800, "min": 1, "notes": "Cover cash register, entry, bar area" } }
+        },
+
+        "com-bar": {
+          "label": "Bar / Lounge",
+          "description": "High-energy social space. Dense speakers, multiple displays for sports, good bass.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "exposed-deck",
+            "ambientNoise": 70,
+            "occupancyType": "high-energy-music"
+          },
+          "audio": { "speakerRule": { "per": 150, "min": 4, "type": "ceiling-high-output" }, "subwoofer": { "per": 800, "min": 1 }, "splTarget": { "min": 78, "max": 90 } },
+          "video": { "displayRule": { "per": 300, "min": 3, "sizeGuide": "55-65\" per zone, visible from all seats" } },
+          "network": { "apRule": { "per": 1500, "min": 1 } },
+          "security": { "cameras": { "min": 2, "notes": "Cash handling, entry, back bar" } },
+          "control": { "touchPanel": 1, "notes": "Bartender accessible" }
+        },
+
+        "com-commercial-kitchen": {
+          "label": "Commercial Kitchen",
+          "description": "BOH food prep. Paging only, waterproof speakers, cameras for health/safety.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "drop-tile-2x4",
+            "ambientNoise": 75,
+            "occupancyType": "paging-only"
+          },
+          "audio": { "speakerRule": { "per": 500, "min": 1, "type": "moisture-rated" }, "splTarget": { "min": 75, "max": 85, "notes": "Must overcome kitchen ambient" } },
+          "security": { "cameras": { "min": 1, "notes": "Health department and liability" } }
+        },
+
+        "com-retail": {
+          "label": "Retail Floor",
+          "description": "Shopping area. Background music, digital signage, security cameras, anti-theft.",
+          "defaults": {
+            "ceilingHeight": 12,
+            "ceilingType": "exposed-deck",
+            "ambientNoise": 55,
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "per": 300, "min": 4, "type": "environment-dependent" }, "splTarget": { "min": 62, "max": 72 } },
+          "video": { "displayRule": { "per": 1000, "optional": true, "notes": "Promotional signage" } },
+          "network": { "apRule": { "per": 2000, "min": 1 } },
+          "security": { "cameras": { "per": 500, "min": 2, "notes": "Cover entry, POS, high-value areas" } }
+        },
+
+        "com-worship-sanctuary": {
+          "label": "Worship — Sanctuary / Main Hall",
+          "description": "Speech and music reinforcement in large room. Acoustics critical. IMAG video.",
+          "defaults": {
+            "ceilingHeight": 20,
+            "ceilingType": "drywall",
+            "ambientNoise": 35,
+            "occupancyType": "worship"
+          },
+          "audio": {
+            "approach": "Point-source or line array system depending on room size. NOT ceiling speakers in most cases.",
+            "speakerRule": { "notes": "Designed per room geometry. Line array for >300 seats, point source for smaller. Under-balcony fills, front fills as needed." },
+            "microphone": { "notes": "Wireless handhelds, lavs, choir mics, podium mic" },
+            "splTarget": { "min": 85, "max": 100 }
+          },
+          "video": { "displayRule": { "notes": "IMAG projection or LED wall for >300 seats. Confidence monitors for stage." } },
+          "network": { "apRule": { "per": 1500, "highDensity": true, "notes": "Peak density during services" } },
+          "notes": "Acoustic treatment is often the biggest need. Room analysis before system design."
+        },
+
+        "com-worship-multipurpose": {
+          "label": "Worship — Multi-Purpose Room",
+          "description": "Fellowship hall, youth room. Flexible AV for varied uses.",
+          "defaults": {
+            "ceilingHeight": 12,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 50,
+            "occupancyType": "foreground-music"
+          },
+          "audio": { "speakerRule": { "per": 200, "min": 4, "type": "ceiling-high-output" }, "subwoofer": { "per": 1500, "min": 1 }, "splTarget": { "min": 75, "max": 88 } },
+          "video": { "displayRule": { "fixed": 1, "sizeGuide": "projector + screen or 75\"+" } },
+          "control": { "touchPanel": 1 }
+        },
+
+        "com-education-classroom": {
+          "label": "Education — Classroom",
+          "description": "K-12 or higher ed. Speech reinforcement, presentation display, lecture capture optional.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 35,
+            "occupancyType": "speech-reinforcement"
+          },
+          "audio": { "speakerRule": { "per": 200, "min": 2, "type": "ceiling-standard" }, "microphone": { "fixed": 1, "type": "wireless-pendant-or-lapel" }, "splTarget": { "min": 65, "max": 75 } },
+          "video": { "displayRule": { "fixed": 1, "sizeGuide": "75-85\" or projector" } },
+          "network": { "apRule": { "min": 1, "highDensity": true } }
+        },
+
+        "com-education-lecture": {
+          "label": "Education — Lecture Hall / Auditorium",
+          "description": "Large presentation space. Reinforcement system, projection, recording.",
+          "defaults": {
+            "ceilingHeight": 16,
+            "ceilingType": "drywall",
+            "ambientNoise": 35,
+            "occupancyType": "speech-reinforcement"
+          },
+          "audio": {
+            "approach": "Ceiling distributed for <100 seats, point-source for 100+.",
+            "speakerRule": { "per": 150, "min": 6, "type": "environment-dependent" },
+            "microphone": { "notes": "Podium gooseneck + wireless handheld + wireless lapel" },
+            "splTarget": { "min": 72, "max": 82 }
+          },
+          "video": { "displayRule": { "fixed": 1, "notes": "Projector + screen or large-format LED" } },
+          "network": { "apRule": { "per": 1000, "highDensity": true } },
+          "control": { "touchPanel": 1, "lectureCapture": true }
+        },
+
+        "com-healthcare-exam": {
+          "label": "Healthcare — Exam Room",
+          "description": "Patient exam room. Display for records/imaging, basic speaker optional.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 35,
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "fixed": 1, "type": "ceiling-standard", "optional": true } },
+          "video": { "displayRule": { "fixed": 1, "sizeGuide": "43\" for patient/provider display" } },
+          "network": { "apRule": { "per": 0, "notes": "Covered by corridor AP" } },
+          "notes": "HIPAA considerations for display content and network security."
+        },
+
+        "com-healthcare-waiting": {
+          "label": "Healthcare — Waiting Room",
+          "description": "Patient waiting area. Background music, TV, digital signage, good WiFi.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 45,
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "per": 300, "min": 2, "type": "ceiling-standard" }, "soundMasking": true, "splTarget": { "min": 58, "max": 68 } },
+          "video": { "displayRule": { "fixed": 1, "notes": "Patient info / entertainment" } },
+          "network": { "apRule": { "min": 1, "notes": "Guest and clinical separate VLANs" } },
+          "security": { "cameras": { "min": 1 } }
+        },
+
+        "com-fitness": {
+          "label": "Fitness Center / Gym (Commercial)",
+          "description": "High-energy space requiring full AV coverage with bass reinforcement.",
+          "defaults": {
+            "ceilingHeight": 12,
+            "ceilingType": "exposed-deck",
+            "ambientNoise": 75,
+            "floorFinish": "rubber-mat",
+            "occupancyType": "fitness-cardio"
+          },
+          "audio": {
+            "speakerRule": { "per": 250, "min": 4, "type": "ceiling-high-output" },
+            "subwoofer": { "per": 1000, "min": 1 },
+            "splTarget": { "min": 80, "max": 90 }
+          },
+          "video": { "displayRule": { "per": 600, "min": 1, "notes": "Above cardio equipment" } },
+          "network": { "apRule": { "per": 2000, "min": 1 } },
+          "security": { "cameras": { "per": 800, "min": 1 }, "accessControl": "card-reader" },
+          "control": { "touchPanel": 1 }
+        },
+
+        "com-ballroom": {
+          "label": "Ballroom / Event Space",
+          "description": "Large flexible event space, often divisible. Full AV with partition sensing.",
+          "defaults": {
+            "ceilingHeight": 16,
+            "ceilingType": "drywall",
+            "ambientNoise": 60,
+            "occupancyType": "hotel-ballroom"
+          },
+          "audio": {
+            "speakerRule": { "per": 200, "min": 8, "type": "ceiling-high-output" },
+            "subwoofer": { "per": 800, "min": 2 },
+            "splTarget": { "min": 82, "max": 95 }
+          },
+          "video": { "displayRule": { "per": 1500, "min": 2, "sizeGuide": "75\"+ or projector" } },
+          "network": { "apRule": { "per": 1500, "min": 2, "highDensity": true } },
+          "control": { "touchPanel": 1, "notes": "Partition sensors for auto zone combining/splitting" },
+          "notes": "Divisible spaces need independent audio zones that can combine. Partition sensing automates this."
+        },
+
+        "com-hotel-guestroom": {
+          "label": "Hotel — Guest Room",
+          "description": "Individual guest room. Display, network, bedside controls.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "drywall",
+            "ambientNoise": 30,
+            "occupancyType": "background-music"
+          },
+          "video": { "displayRule": { "fixed": 1, "sizeGuide": "55\" standard, 65\" suite" } },
+          "network": { "apRule": { "min": 1, "notes": "In-room AP or corridor AP coverage" } },
+          "control": { "notes": "Bedside panel for lighting, shading, climate, TV" },
+          "notes": "Guest room tech varies enormously by property tier. Budget, midscale, luxury all different."
+        },
+
+        "com-spa": {
+          "label": "Spa / Wellness",
+          "description": "Relaxation space. Very quiet audio, gentle lighting control, card access.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drywall",
+            "ambientNoise": 30,
+            "occupancyType": "spa-relaxation"
+          },
+          "audio": { "speakerRule": { "per": 350, "min": 2, "type": "ceiling-standard" }, "splTarget": { "min": 45, "max": 58 } },
+          "network": { "apRule": { "per": 2500, "min": 1 } },
+          "security": { "accessControl": "card-reader" },
+          "notes": "Keep it invisible. No visible tech. Volume must be very low and calming."
+        },
+
+        "com-corridor": {
+          "label": "Corridor / Hallway (Commercial)",
+          "description": "Transition space. Paging, wayfinding, cameras, access points.",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 45,
+            "occupancyType": "paging-only"
+          },
+          "audio": { "speakerRule": { "per": 500, "min": 1, "type": "ceiling-standard" }, "splTarget": { "min": 60, "max": 70 } },
+          "network": { "apRule": { "per": 3000, "min": 1 } },
+          "security": { "cameras": { "per": 600, "min": 1 } }
+        },
+
+        "com-boh": {
+          "label": "Back-of-House / Service Area",
+          "description": "Staff areas, storage, mechanical. Security cameras, card access, basic network.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "exposed-deck",
+            "ambientNoise": 60,
+            "occupancyType": "paging-only"
+          },
+          "network": { "apRule": { "per": 3000, "min": 1 } },
+          "security": { "cameras": { "per": 1000, "min": 1 }, "accessControl": "card-reader" }
+        },
+
+        "com-warehouse": {
+          "label": "Warehouse / Distribution",
+          "description": "Large open industrial space. Paging, cameras, WiFi for handhelds/scanners.",
+          "defaults": {
+            "ceilingHeight": 24,
+            "ceilingType": "metal-deck",
+            "ambientNoise": 70,
+            "occupancyType": "warehouse-paging"
+          },
+          "audio": {
+            "approach": "Horn speakers for paging in high-noise environments. Not ceiling speakers.",
+            "speakerRule": { "per": 3000, "min": 2, "type": "horn-paging" },
+            "splTarget": { "min": 80, "max": 90, "notes": "Must overcome machinery noise" }
+          },
+          "network": { "apRule": { "per": 5000, "min": 2, "notes": "Industrial-rated APs, antenna aiming for racking aisles" } },
+          "security": { "cameras": { "per": 5000, "min": 4, "type": "bullet-outdoor", "notes": "Cover dock doors, aisles, shipping" }, "accessControl": "card-reader" }
+        },
+
+        "com-parking": {
+          "label": "Parking — Commercial",
+          "description": "Garage or surface lot. Camera coverage, access readers, intercoms.",
+          "defaults": {
+            "ceilingHeight": 10,
+            "ceilingType": "concrete",
+            "ambientNoise": 55,
+            "occupancyType": "paging-only"
+          },
+          "security": {
+            "cameras": { "per": 3000, "min": 4, "type": "bullet-outdoor" },
+            "accessControl": "card-reader-plus-gate",
+            "lpr": { "notes": "License plate recognition at entry/exit for managed parking" }
+          },
+          "network": { "apRule": { "per": 10000, "min": 1 } }
+        },
+
+        "com-server-mdf": {
+          "label": "Server Room / MDF",
+          "description": "Main distribution frame. Racks, core switching, UPS, environmental monitoring.",
+          "defaults": { "ceilingHeight": 9, "ceilingType": "drop-tile-2x2" },
+          "network": { "notes": "Core switch, firewall, patch panels, UPS, PDU. Dedicated cooling. 42U rack minimum." },
+          "security": { "cameras": { "min": 1 }, "accessControl": "card-reader", "environmentalMonitoring": true },
+          "notes": "Dedicated HVAC, UPS, generator backup. Access restricted. Environmental sensors for temp/humidity/leak."
+        },
+
+        "com-restroom": {
+          "label": "Restroom (Commercial)",
+          "description": "Public restroom. Optional background music, moisture-rated.",
+          "defaults": {
+            "ceilingHeight": 8,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 45,
+            "occupancyType": "background-music"
+          },
+          "audio": { "speakerRule": { "fixed": 1, "type": "ceiling-moisture-rated", "optional": true }, "splTarget": { "min": 55, "max": 65 } },
+          "notes": "No cameras in restrooms — ever. Moisture-rated speakers only."
+        },
+
+        "com-custom": {
+          "label": "Custom Room",
+          "description": "User-defined room type. All fields editable. Use as starting point and customize.",
+          "customName": "",
+          "defaults": {
+            "ceilingHeight": 9,
+            "ceilingType": "drop-tile-2x2",
+            "ambientNoise": 45,
+            "floorFinish": "mixed",
+            "wallFinishes": "mixed",
+            "occupancyType": "background-music"
+          },
+          "audio": {
+            "speakerRule": { "per": 300, "min": 2, "type": "ceiling-standard" },
+            "subwoofer": { "per": 0, "optional": true },
+            "splTarget": { "min": 60, "max": 75 }
+          },
+          "video": { "displayRule": { "per": 0, "fixed": 0, "optional": true } },
+          "network": { "apRule": { "per": 2500, "min": 1 } },
+          "security": { "cameras": { "per": 0, "optional": true }, "accessControl": "none" },
+          "control": { "touchPanel": 0, "keypad": 0 },
+          "notes": "Fully customizable room type. Set a custom name and adjust all defaults to match the space."
+        }
+      }
+    }
+  },
+
+  "customRoomType": {
+    "description": "Schema for user-created room types. Users can create unlimited custom types that persist in their library.",
+    "schema": {
+      "id": "custom-{user-defined-slug}",
+      "label": "User-provided name",
+      "vertical": "residential | multifamily | commercial",
+      "customName": "Freeform name (e.g., 'Rooftop Bar', 'Dog Wash Station', 'Recording Studio')",
+      "description": "User-provided description",
+      "defaults": "Copy from closest existing type, then modify",
+      "audio": "Fully editable",
+      "video": "Fully editable",
+      "network": "Fully editable",
+      "security": "Fully editable",
+      "control": "Fully editable",
+      "notes": "User notes"
+    }
+  },
+
+  "roomTypeCount": "52 room types across 3 verticals + unlimited custom",
+
+  "notes": {
+    "extensibility": "New room types are added by creating a new entry with defaults and rules. No code changes required.",
+    "overrides": "Environmental defaults are starting points. The agent should confirm critical values (ceiling height, ceiling type, ambient noise) with the designer before applying rules.",
+    "formulas": "Speaker rules use 'per' (1 per X sqft), 'fixed' (exact count), or 'min' (minimum regardless of sqft). The design-intelligence.json engine applies geometry-based calculations on top of these starting points.",
+    "crossReference": "Room types reference equipment by type (ceiling-standard, ceiling-high-output, outdoor-rated, etc.) rather than specific SKUs. The user's symbol library maps types to their preferred products."
+  }
+}
