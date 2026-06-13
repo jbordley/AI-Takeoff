@@ -1,8 +1,15 @@
 # AI Takeoff Canvas
 
+[![Live demo](https://img.shields.io/badge/live%20demo-jbordley.github.io-2ea44f?logo=github)](https://jbordley.github.io/AI-Takeoff/)
+
 An AI-powered AV/low-voltage system design tool built for integrators.
 Sits between lightweight tools like System Surveyor and enterprise platforms
 like D-Tools — faster than one, smarter than the other.
+
+> **▶ Try it live:** **https://jbordley.github.io/AI-Takeoff/**
+> Runs entirely in your browser — no install, no backend. Ships with a
+> synthetic illustrative product library; bring your own pricing data to use
+> it for real.
 
 ## What It Does
 
